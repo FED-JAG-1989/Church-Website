@@ -25,6 +25,14 @@ npm run preview
 The production website is generated in `dist`. Do not deploy `node_modules` or
 the source project as your public website.
 
+## Typography
+
+Body copy, navigation and actions use a shared `1rem` size (normally 16px).
+Supporting labels and captions use `0.875rem` (normally 14px). Both scale with
+the visitor's default font preference; mobile layouts retain these sizes rather
+than shrinking text. Keep these tokens in `src/styles.css` and avoid smaller
+breakpoint overrides. Check narrow screens and enlarged text when editing copy.
+
 ## Before publishing
 
 - Sunday service at 11:30am and the public name were confirmed by the site owner.

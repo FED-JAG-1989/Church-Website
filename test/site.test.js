@@ -6,6 +6,25 @@ import { getSlideIndex } from '../src/gallery.js';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 
+test('typography uses scalable body and supporting text without tiny breakpoint overrides', async () => {
+  const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const gallery = await readFile(new URL('../src/gallery.css', import.meta.url), 'utf8');
+  assert.match(styles, /--text-body:\s*1rem;/);
+  assert.match(styles, /--text-small:\s*0\.875rem;/);
+  for (const [, value] of `${styles}\n${gallery}`.matchAll(/font-size:\s*([^;}]+)/g)) {
+    if (value.startsWith('var(')) {
+      assert.match(value, /^var\(--text-(?:body|small)\)$/);
+    } else {
+      const dimensions = [...value.matchAll(/([\d.]+)(px|rem|em)/g)];
+      assert.ok(dimensions.length > 0, `Unrecognised font size: ${value}`);
+      for (const [, size, unit] of dimensions) {
+        const minimum = unit === 'em' ? 1 : unit === 'rem' ? 0.875 : 14;
+        assert.ok(Number(size) >= minimum, `Text below the readable minimum: ${value}`);
+      }
+    }
+  }
+});
+
 test('menu opens and closes from its accessible expanded state', () => {
   assert.equal(toggleMenu('false'), true);
   assert.equal(toggleMenu('true'), false);
@@ -76,6 +95,13 @@ test('external new-tab links have safe relationship and accessible disclosure', 
   }
 });
 
+test('gallery attribution links directly to the church Facebook page', () => {
+  const attribution = html.match(/<p class="gallery-source">[\s\S]*?<\/p>/)?.[0];
+  assert.ok(attribution);
+  assert.ok(attribution.includes('href="https://www.facebook.com/profile.php?id=61581878207037"'));
+  assert.ok(attribution.includes('visit Facebook'));
+});
+
 test('header uses only the Heavenly Hope logo with an accessible description', async () => {
   const header = html.match(/<header[\s\S]*?<\/header>/)[0];
   assert.equal((header.match(/<img\b/g) ?? []).length, 1);
@@ -88,6 +114,16 @@ test('header uses only the Heavenly Hope logo with an accessible description', a
 
 test('contact email opens an email client and preserves the supplied address', () => {
   assert.ok(html.includes('href="mailto:heavenlyhopeincorporated@gmail.com">heavenlyhopeincorporated@gmail.com</a>'));
+});
+
+test('story panel reuses the header logo and preserves its message', () => {
+  const panel = html.match(/<div class="story-art">[\s\S]*?<\/div><\/div>/)?.[0];
+  assert.ok(panel);
+  assert.ok(panel.includes('src="/images/branding/heavenly-hope-logo.png"'));
+  assert.ok(panel.includes('alt="Heavenly Hope Ministry"'));
+  assert.ok(panel.includes('Rooted in faith.'));
+  assert.ok(panel.includes('Growing in love.'));
+  assert.ok(!panel.includes('<svg'));
 });
 
 test('hero uses the supplied stained-glass church image with matching accessible description', async () => {
