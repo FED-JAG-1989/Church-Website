@@ -133,11 +133,22 @@ and `122158515699062606`, respectively.
 
 ### Illustrative stock images
 
+The visit section reuses the original green landscape as a locally hosted
+background at `public/images/backgrounds/green-landscape.jpg`, with a light
+overlay for readable text and an opaque visit-details card.
+Unsplash image identifier: `photo-1470071459604-3b5ec3a7fe05`.
+Source: <https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05>.
+Usage terms: <https://unsplash.com/license>.
+
+The hero uses the stained-glass church interior image supplied by the site owner at
+`public/images/hero/stained-glass-church.png`. It is illustrative, not a photograph
+of Heavenly Hope's venue. The site owner confirmed permission to publish it.
+The supplied image is portrait-oriented;
+a higher-resolution landscape original is recommended for wide screens.
+
 Stock imagery is served from Unsplash under the
 [Unsplash licence](https://unsplash.com/license). Images are illustrative.
 
-- [Landscape](https://unsplash.com/photos/1470071459604-3b5ec3a7fe05)
-  (image identifier: `photo-1470071459604-3b5ec3a7fe05`).
 - Worship: image identifier `photo-1438232992991-995b7058bbb3`.
 - Friends: image identifier `photo-1529156069898-49953e39b3ac`.
 - Bible: image identifier `photo-1504052434569-70ad5836ab65`.
@@ -148,6 +159,6 @@ Google Fonts, with system font fallbacks. Google Fonts and Unsplash receive
 normal browser requests when visitors load these external assets.
 The header uses the Heavenly Hope logo supplied by the site owner, stored in
 `public/images/branding`. Blank margins were trimmed from a copy of the logo.
-The second supplied Apostolic Church emblem is not displayed on the site.
+Unused trial banners and the second supplied Apostolic Church emblem were removed.
 The original attachments were not modified. The browser favicon remains an
 original placeholder SVG until a dedicated church favicon is supplied.

@@ -62,8 +62,8 @@ em { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; }
 
 .hero { position: relative; min-height: 690px; color: var(--white); display: flex; flex-direction: column; justify-content: center; background: #334439; overflow: hidden; }
 .hero-image, .hero-shade { position: absolute; inset: 0; }
-.hero-image { background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=85') center 53% / cover; }
-.hero-shade { background: linear-gradient(90deg, #10271de0 0%, #142c228c 47%, #10271d26 100%), linear-gradient(0deg, #10271d99, transparent 40%); }
+.hero-image { background: url('/images/hero/stained-glass-church.png') center 48% / cover; }
+.hero-shade { background: linear-gradient(90deg, #10271df2 0%, #142c22d9 47%, #10271d40 100%), linear-gradient(0deg, #10271db3, transparent 40%); }
 .hero-content { position: relative; padding-top: 64px; padding-bottom: 120px; }
 .hero .eyebrow { display: flex; align-items: center; gap: 12px; color: #e5eddc; }
 .small-cross { font-size: 22px; }
@@ -131,10 +131,10 @@ h1 em { color: #e1e9cf; letter-spacing: -2px; font-size: 1.04em; }
 .accordion summary span { font-size: 22px; font-weight: 400; transition: transform .2s; }
 .accordion details[open] summary span { transform: rotate(45deg); }
 .accordion details p { font-size: 12px; color: var(--muted); padding: 0 30px 24px 0; }
-.visit { background: var(--sand); }
+.visit { background: linear-gradient(90deg, #f7f5eff0, #f7f5efcc), url('/images/backgrounds/green-landscape.jpg') center / cover; }
 .visit-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 90px; align-items: center; }
 .visit-grid > div > p:not(.eyebrow) { color: var(--muted); font-size: 13px; margin-block: 25px; }
-.visit-card { padding: 36px; border: 1px solid #c9cfbe; background: #f7f5ef99; }
+.visit-card { padding: 36px; border: 1px solid #c9cfbe; background: var(--cream); }
 .visit-card .eyebrow { font-size: 9px; margin-bottom: 12px; }
 .visit-card h3 { font-size: 25px; font-weight: 500; letter-spacing: -.9px; margin-bottom: 30px; }
 .visit-detail { display: flex; gap: 18px; margin-block: 20px; }
@@ -226,8 +226,8 @@ h1 em { color: #e1e9cf; letter-spacing: -2px; font-size: 1.04em; }
   .church-logo { width: 64px; height: 64px; padding: 5px; }
   .navigation { padding-inline: 20px; }
   .hero { min-height: 685px; }
-  .hero-image { background-position: 60% center; }
-  .hero-shade { background: linear-gradient(90deg, #10271de0, #142c2273), linear-gradient(0deg, #10271d80, transparent); }
+  .hero-image { background-position: center 48%; }
+  .hero-shade { background: linear-gradient(90deg, #10271deb, #142c22cc), linear-gradient(0deg, #10271d99, transparent); }
   .hero-content { padding-top: 40px; padding-bottom: 100px; }
   .hero .eyebrow { font-size: 8px; letter-spacing: 1.4px; gap: 9px; }
   h1 { font-size: clamp(42px, 11vw, 63px); letter-spacing: -2px; margin-top: 25px; line-height: 1.13; }

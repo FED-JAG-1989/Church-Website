@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { toggleMenu, closeMenuOnLink } from '../src/navigation.js';
 import { getSlideIndex } from '../src/gallery.js';
 
@@ -90,6 +90,15 @@ test('contact email opens an email client and preserves the supplied address', (
   assert.ok(html.includes('href="mailto:heavenlyhopeincorporated@gmail.com">heavenlyhopeincorporated@gmail.com</a>'));
 });
 
+test('hero uses the supplied stained-glass church image with matching accessible description', async () => {
+  const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /\.hero-image \{ background: url\('\/images\/hero\/stained-glass-church\.png'\)/);
+  const photo = await readFile(new URL('../public/images/hero/stained-glass-church.png', import.meta.url));
+  assert.equal(photo.subarray(1, 4).toString(), 'PNG');
+  assert.ok(html.includes('aria-label="Illustrative church interior with sunlight streaming through stained-glass windows above an altar and wooden pews"'));
+  assert.ok(!css.includes('photo-1470071459604-3b5ec3a7fe05'));
+});
+
 test('WDP support is the final section before the footer with accurate guidance and working enquiry links', () => {
   const section = html.match(/<section class="wdp section"[\s\S]*?<\/section>/)?.[0];
   assert.ok(section);
@@ -100,4 +109,31 @@ test('WDP support is the final section before the footer with accurate guidance 
   assert.ok(section.includes('https://online.fines.vic.gov.au/support/work-and-Development-Permit'));
   assert.ok(section.includes('mailto:heavenlyhopeincorporated@gmail.com?subject=Work%20and%20Development%20Permit%20enquiry'));
   assert.ok(html.includes('href="#wdp"'));
+});
+
+test('visit section reuses the original landscape locally without changing the hero', async () => {
+  const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /\.visit \{ background: linear-gradient\([^;]+url\('\/images\/backgrounds\/green-landscape\.jpg'\)/);
+  const photo = await readFile(new URL('../public/images/backgrounds/green-landscape.jpg', import.meta.url));
+  assert.equal(photo[0], 0xff);
+  assert.equal(photo[1], 0xd8);
+  assert.match(css, /\.hero-image \{ background: url\('\/images\/hero\/stained-glass-church\.png'\)/);
+});
+
+test('public image assets are all referenced by the website', async () => {
+  const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const references = new Set(
+    [...`${html}\n${css}`.matchAll(/\/images\/[^'"\s)]+/g)].map(([path]) => path),
+  );
+  const assets = await readdir(new URL('../public/images/', import.meta.url), {
+    recursive: true,
+    withFileTypes: true,
+  });
+  const files = assets.filter((entry) => entry.isFile());
+  assert.equal(files.length, 14);
+  for (const entry of files) {
+    const fullPath = `${entry.parentPath}/${entry.name}`.replaceAll('\\', '/');
+    const imagePath = fullPath.slice(fullPath.indexOf('/images/'));
+    assert.ok(references.has(imagePath), `Unused image asset: ${imagePath}`);
+  }
 });
